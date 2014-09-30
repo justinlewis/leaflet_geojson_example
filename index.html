@@ -26,15 +26,15 @@
    <script>
 
  		var map, tipLines;	
- 		
+ 				
  		var ggl_road = new L.Google('ROADMAP');
- 		var ggl_aerial = new L.Google('SATELLITE');
-		
+ 		var ggl_aerial = new L.Google('SATELLITE');		
 		var mapquestUrl = 'http://otile{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png',
 			mapquestAttribution = "Data CC-By-SA by <a href='http://openstreetmap.org/' target='_blank'>OpenStreetMap</a>, Tiles Courtesy of <a href='http://open.mapquest.com' target='_blank'>MapQuest</a>",
 			mapquest = new L.TileLayer(mapquestUrl, {maxZoom: 18, attribution: mapquestAttribution, subdomains: ['1','2','3','4']});
 		
 		
+		// properties set on each feature of a Leaflet layer object
 		function onEachFeature(feature, layer) {
 			layer.on({
             mouseover: hoverAction,
@@ -58,6 +58,7 @@
     		 }
 		}	
 		
+		// action to perform when mousing over a feature
 		function hoverAction(e) {
 		    layer = e.target;
 		
@@ -70,6 +71,7 @@
 		    }); 		    
 		}
 		
+		// action to perform when mousing off of a feature 
 		function resetHighlight(e) {
 		    var layer = e.target;
 		    
@@ -80,7 +82,7 @@
 		    });		 		   
 		}			
 		
-		
+		// define the default feature style
 		var tipLineStyle = {
     		"color": "black",
     		"weight": 4,
@@ -88,13 +90,13 @@
 		};
 	
 	
-		//Simple add json lines with popup
+		//add geojson lines with popup and style
 		var tipLines = new L.GeoJSON(lines, {
 				style: tipLineStyle,
 				onEachFeature: onEachFeature		
 		});
 		
-		
+		// initialize the Leaflet map object
 		map = new L.Map('map', {
 			center: new L.LatLng(39.79, -464.97), 
 			zoom: 9,
@@ -103,17 +105,18 @@
 			zoomControl: true
 		});
 		
-			
+		// add overlays to the map object	
 		map.addLayer(tipLines);
 					
 			
-		// Builds the layer switcher
+		// define the base layer switcher
 		var baseMaps = {
 			"Google Roads": ggl_road,
 			"Google Aerial": ggl_aerial,
 			"mapquest": mapquest
 			};
 			
+		// define the overlay layer switcher
 		var overlays = {
 			"TIP Lines": tipLines
 			}; 
